@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Francisco Augusto — Portfólio & Currículo</title>
+<meta name="color-scheme" content="light dark" />
+<style>
+:root{
+  --bg:#0a0d14; --fg:#e9edf6; --muted:#a6afc3;
+  --accent:#775cff; --accent-2:#4d2dff; --hot:#ff5ca8; --orange:#ff8a2b;
+  --stroke: rgba(255,255,255,.18);
+  --radius:16px; --shadow-sm: 0 10px 22px rgba(0,0,0,.18); --blur:14px;
+  --shell: 1120px; --sidebar-w: 280px; --col-gap: 32px; --card-gap: 16px; --section-gap: 28px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{ scroll-behavior:smooth }
+body{ margin:0; color:var(--fg);
+  font:16px/1.65 Inter, ui-sans-serif, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background:#0b0f19; overflow-x:hidden }
+
+/* FUNDO — multibolhas + parallax suave */
+.bg-pan{
+  position:fixed; inset:0; z-index:-1; pointer-events:none;
+  --sx:0px; --sy:0px;
+  background:
+    radial-gradient(60% 55% at calc(10% + var(--sx)) 16%, rgba(90,70,255,.45), transparent 62%),
+    radial-gradient(65% 55% at calc(85% - var(--sx)) 14%, rgba(255,76,168,.42), transparent 62%),
+    radial-gradient(60% 55% at 18% calc(88% - var(--sy)), rgba(50,200,255,.35), transparent 62%),
+    radial-gradient(60% 55% at calc(90% - var(--sx)) calc(88% - var(--sy)), rgba(255,140,50,.34), transparent 62%),
+    radial-gradient(60% 55% at 50% 60%, rgba(176,76,255,.30), transparent 62%),
+    radial-gradient(55% 50% at 50% 40%, rgba(255,88,120,.26), transparent 62%),
+    linear-gradient(180deg, #0a0e18 0%, #0b0f19 100%);
+  background-repeat:no-repeat;
+  background-size:160% 160%,160% 160%,160% 160%,160% 160%,160% 160%,160% 160%,100% 100%;
+  animation:hue 48s ease-in-out infinite alternate;
+}
+@keyframes hue{0%{filter:hue-rotate(0)}100%{filter:hue-rotate(-10deg)}}
+
+/* links limpos */
+a{ text-decoration:none; color:inherit }
+
+/* LIQUID GLASS */
+.glass{
+  border:1px solid var(--stroke); border-radius:var(--radius);
+  background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.06));
+  -webkit-backdrop-filter:blur(var(--blur)) saturate(115%); backdrop-filter:blur(var(--blur)) saturate(115%);
+  box-shadow:var(--shadow-sm);
+  transition:outline-color .18s, box-shadow .18s, background .18s, transform .18s;
+}
+.glass:hover{
+  outline:1px solid color-mix(in srgb, var(--accent) 45%, var(--stroke));
+  box-shadow:0 12px 26px color-mix(in srgb, var(--accent) 22%, transparent), inset 0 1px 0 rgba(255,255,255,.25);
+}
+
+/* LAYOUT */
+.shell{ max-width:var(--shell); margin:0 auto; padding:0 22px 56px } /* menos sobra após rodapé */
+.grid{ display:grid; grid-template-columns: var(--sidebar-w) 1fr; grid-template-areas: "side hero" "side main"; column-gap: var(--col-gap) }
+@media (max-width:900px){ :root{ --sidebar-w:100%; --col-gap:16px } .grid{ grid-template-columns:1fr; grid-template-areas:"hero" "main" } .sidebar{ display:none } }
+
+/* SIDEBAR */
+.sidebar{ grid-area:side; position:sticky; top:0; align-self:start; padding-top:36px; height:100vh; display:flex; flex-direction:column }
+.toc{ display:flex; flex-direction:column; gap:2px; margin:0; padding:0 }
+.toc a{ position:relative; display:block; padding:10px 12px 10px 18px; border-radius:10px; font-weight:800; letter-spacing:.2px; color:var(--muted); transition:.2s }
+.toc a:hover{ color:var(--fg); transform:translateX(1px) }
+.toc a.active{ color:var(--fg); background: color-mix(in srgb, #fff 10%, transparent) }
+.toc a.active::before{ content:""; position:absolute; left:6px; top:10px; bottom:10px; width:3px; border-radius:2px; background:linear-gradient(180deg,var(--accent),var(--accent-2)) }
+
+/* HERO */
+.hero{ grid-area:hero; min-height:100vh; display:flex; align-items:center; padding:36px 0 0 }
+.name{ font-size:clamp(26px,4vw,40px); font-weight:800; line-height:1.06; margin:0 0 6px }
+.role{ margin:0 0 4px; font-size:clamp(16.5px,1.8vw,20px); font-weight:650; color:color-mix(in srgb,var(--fg) 92%, var(--muted)) }
+.meta{ color:var(--muted); display:flex; align-items:center; gap:8px; margin:0 0 14px }
+.meta .ico{ width:16px; height:16px; fill:currentColor }
+
+/* BOTÕES (contatos) */
+.contact{ display:flex; gap:10px; flex-wrap:nowrap; margin-bottom:12px } /* mantém todos na mesma linha no desktop */
+@media (max-width:1100px){ .contact{ flex-wrap:wrap } }  /* e quebra só no mobile/tablet */
+.btn-chip{
+  display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px;
+  font-weight:600; letter-spacing:.2px; color:var(--fg);
+  background:linear-gradient(180deg,color-mix(in srgb,#ffffff 12%, transparent), transparent);
+  border:1px solid var(--stroke);
+  box-shadow:0 6px 14px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.18);
+  transition:.2s transform,.2s box-shadow,.2s border-color; white-space:nowrap;
+  min-width:0;
+}
+.btn-chip:hover{ transform:translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.24); border-color:color-mix(in srgb,var(--accent) 40%, var(--stroke)) }
+.btn-icon{ width:18px; height:18px; fill:currentColor }
+
+/* PORTFÓLIO — cinza claro; hover igual aos demais */
+.btn-portfolio{
+  background:#f3f5f9 !important; color:#222 !important; font-weight:600;
+  border:1px solid #d9deea; -webkit-backdrop-filter:none; backdrop-filter:none;
+  box-shadow:0 6px 14px rgba(0,0,0,.10);
+}
+.btn-portfolio .btn-icon{ fill:#222 !important }
+.btn-portfolio:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 20px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.24);
+  border-color:color-mix(in srgb,var(--accent) 40%, #d9deea)
+}
+
+/* HEADINGS/SEÇÕES */
+.hx{ margin:18px 0 10px; text-transform:uppercase; letter-spacing:.22px; font-weight:800; font-size:20px; position:relative; padding-left:14px }
+.hx::before{ content:""; position:absolute; left:0; top:3px; bottom:3px; width:3px; background:linear-gradient(180deg,var(--accent),var(--accent-2)); border-radius:2px }
+.justify{ text-align:justify; text-justify:inter-word; hyphens:auto }
+
+main{ grid-area:main; padding:0 }
+section{ scroll-margin-top:86px; margin-top:var(--section-gap) }
+.grid-2{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--card-gap) }
+@media (max-width:980px){ .grid-2{ grid-template-columns:1fr } }
+.card{ padding:16px 18px; position:relative }
+
+/* BADGE — tamanho anterior e colado à borda (sem invadir o card) */
+.badge-corner{
+  position:absolute; top:-26px; left:-26px; z-index:2;
+  width:52px; height:52px; display:flex; align-items:center; justify-content:center; pointer-events:none;
+  filter: drop-shadow(0 12px 22px rgba(0,0,0,.38));
+}
+.badge-corner svg{ width:34px; height:34px; fill:#fff }
+
+/* COMPETÊNCIAS */
+.pills{ display:flex; flex-wrap:wrap; gap:10px 10px; margin-bottom:0 }
+.pill{ display:inline-flex; align-items:center; border:1px solid var(--stroke); background:color-mix(in srgb,#fff 12%, transparent); padding:8px 12px; border-radius:999px; font-size:14px; -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); transition:outline-color .18s, box-shadow .18s }
+.pill:hover, .pill:focus-visible{ outline:1px solid color-mix(in srgb, var(--accent) 45%, var(--stroke)); box-shadow:0 8px 18px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.25) }
+
+/* EXPERIÊNCIAS */
+.company{ font-weight:900; font-size:1.05rem }
+.roleline{ font-weight:650; color:color-mix(in srgb,var(--fg) 80%, var(--muted)); margin-top:2px }
+.when{ color:var(--muted); margin:6px 0 8px }
+ul{ list-style:none; margin:10px 0 0; padding:0 }
+li{ margin:8px 0; padding-left:18px; position:relative }
+li::before{ content:"•"; position:absolute; left:0; top:0; color:var(--muted); font-weight:900 }
+.result{ margin-top:10px; font-size:14.5px; border-top:1px dashed color-mix(in srgb,var(--accent) 35%, var(--stroke)); padding-top:10px }
+
+/* PROJETOS */
+.proj-txt{ font-weight:600; line-height:1.6; font-size:1.06rem; text-align:center }
+.proj-emph{ font-weight:600; line-height:1.6; font-size:1.10rem; text-align:center }
+.semi{ font-weight:600 }
+
+/* CERTIFICAÇÕES */
+.cert-title{ font-weight:900 }
+.cert-inst{ color:color-mix(in srgb,var(--fg) 80%, var(--muted)); font-weight:700; margin-top:4px }
+.cert-when{ color:var(--muted); margin-top:2px }
+
+/* FORMAÇÃO */
+.edu-title{ font-weight:900 }
+.edu-line{ display:flex; align-items:baseline; gap:10px }
+.edu-meta{ color:var(--muted); margin-top:6px }
+
+/* IDIOMAS */
+#lang .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--card-gap) }
+@media (max-width:900px){ #lang .cards{ grid-template-columns:1fr } }
+.lang-card{ padding:12px 14px }
+.lang-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px }
+.lang-name{ font-weight:900 }
+.lvl{ font-weight:800; font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid var(--stroke); background: color-mix(in srgb, #fff 10%, transparent) }
+.lang-meter{ height:8px; border-radius:999px; overflow:hidden; position:relative; background: color-mix(in srgb, #fff 8%, transparent); border:1px solid var(--stroke) }
+.lang-fill{ height:100%; width:0%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); box-shadow: inset 0 1px 0 rgba(255,255,255,.4) }
+
+/* REVEAL */
+.reveal{ opacity:0; transform: translateY(8px) }
+.reveal.in{ opacity:1; transform:none; transition: opacity .55s ease, transform .55s ease }
+
+/* MOBILE FINESSE */
+@media (max-width:520px){
+  .contact{ gap:8px }
+  .btn-chip{ flex:1 1 calc(50% - 8px) } /* quebra em 2 por linha */
+  .name{ font-size:28px }
+}
+</style>
+</head>
+<body>
+<div class="bg-pan" aria-hidden="true"></div>
+
+<div class="shell">
+  <div class="grid">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" aria-label="Navegação">
+      <nav class="toc" id="toc">
+        <a href="#inicio" class="active">Início</a>
+        <a href="#exp">Experiências Profissionais</a>
+        <a href="#proj">Projetos Relevantes</a>
+        <a href="#cert">Certificações & Cursos</a>
+      </nav>
+    </aside>
+
+    <!-- HERO -->
+    <section id="inicio" class="hero">
+      <div>
+        <h1 class="name">Francisco Augusto Fernandes Alves</h1>
+        <div class="role">Content Writer | Estrategista de Conteúdo | Social Media | Analista de Marketing</div>
+        <div class="meta">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 .001-5.001A2.5 2.5 0 0 1 12 11.5z"/></svg>
+          Londrina, PR — Brasil
+        </div>
+
+        <div class="contact" aria-label="Contato">
+          <a class="btn-chip glass" href="https://wa.me/5543996509839" target="_blank" rel="noopener" title="WhatsApp">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.59 2 2.16 6.43 2.16 11.88c0 2.09.56 4.02 1.53 5.7L2 22l4.54-1.65a10.05 10.05 0 0 0 5.5 1.61c5.45 0 9.88-4.43 9.88-9.88C21.92 6.43 17.49 2 12.04 2zm5.8 14.33c-.25.7-1.23 1.29-2.02 1.47-.54.13-1.24.24-3.6-.75-3.02-1.25-4.97-4.33-5.12-4.53-.15-.2-1.22-1.63-1.22-3.11 0-1.48.78-2.2 1.06-2.5.25-.26.66-.38 1.06-.38.13 0 .25.01.36.01.32.01.48.03.69.53.26.64.9 2.21.98 2.37.08.16.13.34.02.55-.1.22-.16.35-.32.54-.16.19-.34.43-.49.58-.16.16-.33.33-.14.65.19.32.84 1.39 1.81 2.25 1.25 1.12 2.3 1.46 2.63 1.64.33.19.53.16.73-.09.2-.25.84-.98 1.06-1.32.22-.33.45-.28.73-.16.29.13 1.83.86 2.14 1.02.32.16.53.24.61.37.08.13.08.76-.17 1.46z"/></svg>
+            +55 43 99650-9839
+          </a>
+          <a class="btn-chip glass" href="mailto:frncxc@gmail.com" title="E-mail">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 2-8 6L4 6h16z"/></svg>
+            frncxc@gmail.com
+          </a>
+          <a class="btn-chip glass" href="https://linkedin.com/in/frncxc" target="_blank" rel="noopener" title="LinkedIn">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5zM3 8.98h4v12H3v-12zM9 8.98h3.8v1.64h.05c.53-1 1.84-2.05 3.79-2.05 4.05 0 4.8 2.66 4.8 6.12v6.29h-4v-5.58c0-1.33-.02-3.05-1.86-3.05-1.87 0-2.16 1.46-2.16 2.96v5.67H9v-12z"/></svg>
+            linkedin.com/in/frncxc
+          </a>
+          <a class="btn-chip btn-portfolio" href="https://beacons.ai/frncxc" target="_blank" rel="noopener" title="Acessar Portfólio">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1h3a2 2 0 0 1 2 2v7a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V9a2 2 0 0 1 2-2h4V6z"/><path d="M12 9.6l1.2 2.44 2.69.39-1.95 1.9.46 2.66L12 15.9l-2.4 1.29.46-2.66-1.95-1.9 2.69-.39L12 9.6z"/></svg>
+            Acessar Portfólio
+          </a>
+        </div>
+
+        <h2 class="hx" id="resumo">Resumo</h2>
+        <div class="justify">
+          <p>Profissional de marketing com experiência em <strong>estratégia de conteúdo</strong>, <strong>SEO (on-page e técnico)</strong>, <strong>copywriting</strong> e <strong>inbound marketing</strong>.</p>
+          <p>Atuação em <strong>gestão de redes sociais</strong>, planejamento editorial e campanhas integradas, com produção de conteúdos para <strong>blogs</strong>, <strong>landing pages</strong>, <strong>newsletters</strong> e <strong>fluxos de e-mail</strong>.</p>
+          <p>Experiência na criação de <strong>materiais ricos</strong> (e-books, guias, cases), <strong>roteiros para vídeos</strong> institucionais, <strong>treinamentos</strong> e campanhas digitais, além de <strong>apresentações comerciais</strong>.</p>
+          <p>Vivência em <strong>automação de marketing</strong> no <strong>HubSpot</strong>, uso de <strong>Google Analytics</strong> e <strong>Figma</strong>, além da integração de <strong>IA generativa</strong> em processos criativos.</p>
+          <p>Histórico de colaboração com times de produto e tecnologia em projetos de <strong>ERP</strong>, <strong>chatbots</strong> e <strong>onboarding</strong> de clientes, com foco em <strong>clareza de mensagem</strong>, <strong>consistência de voz</strong> e <strong>impacto estratégico</strong> no posicionamento digital.</p>
+        </div>
+
+        <h2 class="hx" id="competencias">Competências</h2>
+        <div class="pills">
+          <span class="pill">Estratégia de Conteúdo</span><span class="pill">Content Strategy</span><span class="pill">Inbound Marketing</span><span class="pill">SEO (on-page & técnico)</span><span class="pill">Copywriting</span><span class="pill">UX Writing</span><span class="pill">Storytelling</span><span class="pill">Branding</span><span class="pill">Gestão de Redes Sociais</span><span class="pill">Planejamento Editorial</span><span class="pill">Campanhas Integradas</span><span class="pill">Produção de Blogs & Sites</span><span class="pill">Materiais Ricos</span><span class="pill">Newsletters</span><span class="pill">Apresentações Comerciais</span><span class="pill">Roteiros de Vídeos</span><span class="pill">HubSpot CRM & Automação</span><span class="pill">Google Analytics</span><span class="pill">SEMrush</span><span class="pill">RD University</span><span class="pill">Figma</span><span class="pill">IA Generativa</span><span class="pill">ERPs</span><span class="pill">Chatbots (WhatsApp)</span><span class="pill">Gestão de Projetos</span><span class="pill">Consultoria de E-commerce</span>
+        </div>
+      </div>
+    </section>
+
+    <main>
+      <!-- EXPERIÊNCIAS -->
+      <section id="exp">
+        <h2 class="hx">Experiências Profissionais</h2>
+        <div class="grid-2">
+          <article class="glass card"><div class="company">Bankme</div><div class="roleline">Copywriter Pleno</div><div class="when">Jul/2025 – Ago/2025 · Londrina, PR</div><ul><li>Produção de artigos, landing pages e conteúdos institucionais conectados ao funil (SEO, inbound, copywriting e UX writing).</li><li>Estruturação de jornadas e automações no HubSpot CRM para nutrição/relacionamento.</li><li>Desenvolvimento de conteúdo multimídia e suporte a campanhas digitais (Google, Meta, LinkedIn Ads).</li><li>Redação de <strong>cases</strong> e apresentações institucionais para reforço de prova social.</li></ul><div class="result"><strong>Resultado:</strong> fortalecimento da autoridade digital e suporte direto à geração de leads qualificados.</div></article>
+          <article class="glass card"><div class="company">Aliança Unipax</div><div class="roleline">Analista de Marketing / Social Media</div><div class="when">Abr/2025 – Jun/2025 · Londrina, PR</div><ul><li>Planejamento editorial e gestão de redes sociais (Instagram, Facebook e LinkedIn) com calendário e trilhas por público.</li><li>Produção de <strong>roteiros</strong>, vídeos e fotografias para campanhas institucionais.</li><li>Redação/organização de páginas institucionais com foco em <strong>UX writing</strong> e consistência de tom.</li><li>Criação de e-mails de relacionamento e peças de apoio a ações sazonais.</li></ul><div class="result"><strong>Resultado:</strong> comunicação mais clara e humanizada, com aumento de engajamento orgânico e reforço de marca.</div></article>
+          <article class="glass card"><div class="company">Big4Tech</div><div class="roleline">Content Writer</div><div class="when">Ago/2024 – Abr/2025 · Londrina, PR</div><ul><li>Criação de blog/linha editorial para marca do grupo (pautas, <strong>SEO on-page</strong> e governança de conteúdo).</li><li>Redação de artigos, relatórios de performance e <strong>insights</strong> para gestores.</li><li>Produção de newsletters, roteiros audiovisuais e apresentações comerciais/institucionais.</li><li>Alinhamento de comunicação entre empresas do grupo, garantindo consistência de voz e mensagem.</li></ul><div class="result"><strong>Resultado:</strong> ganho de visibilidade orgânica em termos estratégicos e maior clareza na comunicação corporativa.</div></article>
+          <article class="glass card"><div class="company">Bis2Bis E-commerce</div><div class="roleline">Content Writer</div><div class="when">Nov/2023 – Ago/2024 · Londrina, PR</div><ul><li>Criação de artigos e páginas institucionais otimizadas para <strong>SEO</strong>.</li><li>Produção de <strong>materiais ricos</strong> (e-books, guias) para apoio a inbound marketing.</li><li>Desenvolvimento de roteiros para vídeos institucionais/branding e materiais de capacitação.</li><li>Apoio ao time comercial em apresentações e conteúdos institucionais.</li></ul><div class="result"><strong>Resultado:</strong> suporte ao time de vendas, escalabilidade em treinamentos e consistência de comunicação.</div></article>
+          <article class="glass card"><div class="company">Urainet</div><div class="roleline">Suporte Técnico (Mkt & Operações)</div><div class="when">Jul/2020 – Nov/2023 · Uraí, PR</div><ul><li>Atendimento técnico multicanal, registro/análise de chamados e suporte presencial a clientes.</li><li>Participação na implementação do <strong>ERP</strong> e no lançamento de aplicativos móveis (Android/iOS).</li><li>Organização de base de conhecimento e padronização de comunicações com clientes.</li><li>Gestão de conteúdos com agência parceira e produção de vídeos/peças para campanhas locais.</li></ul><div class="result"><strong>Resultado:</strong> processos internos mais ágeis, melhor experiência de atendimento e fortalecimento de branding local.</div></article>
+          <article class="glass card"><div class="company">Grumft</div><div class="roleline">Copywriter / Suporte Técnico</div><div class="when">Jul/2018 – Jan/2020 · Londrina, PR</div><ul><li>Redação de artigos otimizados para <strong>SEO</strong> e apoio editorial a parceiros da AdTech.</li><li>Atendimento a parceiros via texto/sistema e suporte técnico operacional.</li><li>Revisão de materiais, colaboração em pautas e diretrizes de conteúdo.</li><li>Criação de conteúdos visuais complementares para apoiar publicações.</li></ul><div class="result"><strong>Resultado:</strong> maior consistência editorial e integração entre áreas técnica e conteúdo.</div></article>
+          <article class="glass card" style="grid-column:1/-1">
+            <div style="display:grid;grid-template-columns:260px 1fr;gap:18px">
+              <div><div class="company">Experiências adicionais</div><div class="when">2012 – 2019</div></div>
+              <div><div>• Pubblicità — Redator publicitário</div><div>• Kroton — Técnico de audiovisual</div><div>• Atuação administrativa: IGA, Contax, Ura-Hi, Banco do Brasil</div></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- PROJETOS -->
+      <section id="proj">
+        <h2 class="hx">Projetos Relevantes</h2>
+        <div class="grid-2">
+          <article class="glass card">
+            <span class="badge-corner" aria-hidden="true">
+              <!-- troféu -->
+              <svg viewBox="0 0 24 24"><path d="M18 2H6v3H4v3a5 5 0 0 0 4 4.9V17H6v3h12v-3h-2v-4.1A5 5 0 0 0 20 8V5h-2V2zm-2 6a3 3 0 0 1-8 0V5h8v3zM6 8a3 3 0 0 1-2-2V6h2v2zm12-2h2v0a3 3 0 0 1-2 2V6z"/></svg>
+            </span>
+            <p class="proj-txt">Criação do blog e da estratégia de conteúdo do zero (governança editorial, pautas e SEO on-page), com primeiras posições no Google em palavras-chave estratégicas do segmento.</p>
+          </article>
+          <article class="glass card">
+            <p class="proj-txt">Chatbot no WhatsApp com fluxos de triagem e respostas automáticas que organizaram a fila, reduziram o tempo de espera e elevaram a eficiência do atendimento.</p>
+          </article>
+          <article class="glass card">
+            <p class="proj-txt">5 cases institucionais do zero, 7 fluxos de automação de funil, 5 artigos de blog e campanha completa para o lançamento de um novo produto, incluindo landing page, criativos e fluxos de e-mail integrados. <span class="semi">Em menos de um mês.</span></p>
+          </article>
+          <article class="glass card">
+            <p class="proj-emph">Programa completo de onboarding para plataforma SaaS, com criação de mais de 40 roteiros e vídeos que estruturam a educação do cliente e servem como base de treinamento para novos colaboradores.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- CERTIFICAÇÕES -->
+      <section id="cert">
+        <h2 class="hx">Certificações & Cursos</h2>
+        <div class="grid-2">
+          <div class="glass card"><div class="cert-title">Improving Your Technical SEO</div><div class="cert-inst">HubSpot</div><div class="cert-when">Ago/2025</div></div>
+          <div class="glass card"><div class="cert-title">Gestão de Redes Sociais</div><div class="cert-inst">RD University</div><div class="cert-when">Ago/2025</div></div>
+          <div class="glass card"><div class="cert-title">Curso Intensivo de SEO com Brian Dean</div><div class="cert-inst">Semrush</div><div class="cert-when">Mar/2024</div></div>
+          <div class="glass card"><div class="cert-title">5ª Semana de Marketing B2B</div><div class="cert-inst">Even3</div><div class="cert-when">Mar/2024</div></div>
+        </div>
+      </section>
+
+      <!-- FORMAÇÃO -->
+      <section id="edu">
+        <h2 class="hx">Formação Acadêmica</h2>
+        <div class="grid-2">
+          <div class="glass card">
+            <span class="badge-corner" aria-hidden="true">
+              <!-- chapeuzinho -->
+              <svg viewBox="0 0 24 24"><path d="M12 3l10 5-10 5L2 8l10-5zm0 7l6.5-3.25v4.5c0 2.9-4.33 4.75-6.5 4.75S5.5 14.15 5.5 11.25v-4.5L12 10z"/></svg>
+            </span>
+            <div class="edu-line"><span class="edu-title"><strong>Comunicação Social (Publicidade e Propaganda)</strong></span></div>
+            <div class="edu-meta">2016 – 2020 · Faculdade Pitágoras</div>
+          </div>
+          <div class="glass card"><div class="edu-line"><span class="edu-title"><strong>Informática e Microsoft Office</strong></span></div><div class="edu-meta">2011 · CDI</div></div>
+          <div class="glass card"><div class="edu-line"><span class="edu-title"><strong>Língua Espanhola</strong></span></div><div class="edu-meta">2012 – 2013 · CELEM</div></div>
+          <div class="glass card"><div class="edu-line"><span class="edu-title"><strong>Inglês Avançado</strong></span></div><div class="edu-meta">2024 – 2025 · Senac PR</div></div>
+          <div class="glass card"><div class="edu-line"><span class="edu-title"><strong>Cidadania, Administração e Serviços Bancários</strong></span></div><div class="edu-meta">2012 – 2014 · AEFSPR</div></div>
+        </div>
+      </section>
+
+      <!-- IDIOMAS -->
+      <section id="lang">
+        <h2 class="hx">Idiomas</h2>
+        <div class="cards">
+          <div class="lang-card glass reveal" data-level="100"><div class="lang-head"><span class="lang-name">Português</span><span class="lvl">Nativo</span></div><div class="lang-meter"><div class="lang-fill"></div></div></div>
+          <div class="lang-card glass reveal" data-level="85"><div class="lang-head"><span class="lang-name">Inglês</span><span class="lvl">Avançado</span></div><div class="lang-meter"><div class="lang-fill"></div></div></div>
+          <div class="lang-card glass reveal" data-level="65"><div class="lang-head"><span class="lang-name">Espanhol</span><span class="lvl">Intermediário</span></div><div class="lang-meter"><div class="lang-fill"></div></div></div>
+        </div>
+      </section>
+    </main>
+
+    <footer style="grid-column:1/-1; color:var(--muted); text-align:center; margin-top:44px; padding:18px 0 0">
+      <div>© Francisco Augusto — última atualização: Set/2025</div>
+      <div>feito com muito carinho e um pouco de IA ;)</div>
+      <div style="margin-top:12px">
+        <!-- Para apontar para um PDF/print próprio:
+             SUBSTITUA o onclick abaixo por href="URL_DO_SEU_PDF" e remova o onclick. -->
+        <a id="savePrint" class="btn-chip glass" href="#" onclick="window.print(); return false;">Salvar/Imprimir</a>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+/* ScrollSpy */
+const tocLinks=[...document.querySelectorAll('#toc a')];
+const secs=['inicio','exp','proj','cert'].map(id=>document.getElementById(id)).filter(Boolean);
+function setActive(id){ tocLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+id)); }
+function spy(){ const c=scrollY+(innerHeight/2); let id=secs[0].id; for(const s of secs){ if(s.offsetTop<=c) id=s.id; } setActive(id); }
+addEventListener('scroll', ()=>requestAnimationFrame(spy), {passive:true}); addEventListener('resize', spy); spy();
+
+/* Sidebar cola no topo do RESUMO (desktop) */
+function alignSidebarToResumo(){
+  const s=document.querySelector('.sidebar'), r=document.querySelector('#resumo'), h=document.querySelector('.hero');
+  if(!s||!r||!h) return;
+  const top=h.getBoundingClientRect().top + scrollY;
+  const rTop=r.getBoundingClientRect().top + scrollY;
+  s.style.paddingTop = Math.max(20, Math.round(rTop - top + 18)) + 'px';
+}
+if(document.fonts && document.fonts.ready){ document.fonts.ready.then(alignSidebarToResumo); } else { addEventListener('load', alignSidebarToResumo, {once:true}); }
+addEventListener('resize', alignSidebarToResumo);
+
+/* Reveal + preenchimento Idiomas */
+const obs=new IntersectionObserver((ents)=>{
+  ents.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      const fill=e.target.querySelector('.lang-fill');
+      if(fill){ const lv=e.target.getAttribute('data-level')||'0'; requestAnimationFrame(()=>{ fill.style.width=lv+'%'; fill.style.transition='width 900ms cubic-bezier(.2,.8,.2,1)'; }); }
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:.2, rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal, .lang-card').forEach(el=>obs.observe(el));
+
+/* Parallax do fundo */
+const bg=document.querySelector('.bg-pan');
+addEventListener('scroll', ()=>{
+  const y = scrollY || window.pageYOffset;
+  bg.style.setProperty('--sx', (y*0.06)+'px');
+  bg.style.setProperty('--sy', (y*0.04)+'px');
+}, {passive:true});
+</script>
+</body>
+</html>
