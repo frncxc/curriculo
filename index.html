@@ -186,14 +186,14 @@ li::before{content:"•"; position:absolute; left:0; top:0; color:var(--muted); 
   .name{
     white-space:nowrap;
     max-width:100%;
-    font-size:clamp(12px,4vw,22px); /* mais conservador para 320–414 px */
+    font-size:clamp(12px,4vw,24px); /* mais conservador para 320–414 px */
     letter-spacing:-.2px;
   }
   /* Subtítulo: até 2 linhas sem quebrar em torno do "|" */
   .role{
     display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
     word-break:keep-all; hyphens:none; line-height:1.35;
-    font-weight: 600
+    font-weight: 500
     font-size:clamp(15px,4.2vw,18px);
   }
 
