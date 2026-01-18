@@ -24,21 +24,34 @@ body{
 @supports (overflow: clip){ html,body{overflow-x:clip} }
 a{ color:inherit; text-decoration:none }
 
-/* Fundo com parallax */
-.bg-pan{
-  position:fixed; inset:0; z-index:-1; pointer-events:none;
+/* Fundo (fica atrás de tudo, sem "vazar" faixa escura) */
+body::before{
+  content:"";
+  position:fixed;
+  top:0; left:0;
+  width:100vw;
+  height:100vh;
+  z-index:-1;
+  pointer-events:none;
+
   --sx:0px; --sy:0px;
   background:
-    radial-gradient(60% 55% at calc(10% + var(--sx)) 16%, rgba(90,70,255,.45), transparent 62%),
-    radial-gradient(65% 55% at calc(85% - var(--sx)) 14%, rgba(255,76,168,.42), transparent 62%),
-    radial-gradient(60% 55% at 18% calc(88% - var(--sy)), rgba(50,200,255,.35), transparent 62%),
-    radial-gradient(60% 55% at calc(90% - var(--sx)) calc(88% - var(--sy)), rgba(255,140,50,.34), transparent 62%),
-    radial-gradient(60% 55% at 50% 60%, rgba(176,76,255,.30), transparent 62%),
-    radial-gradient(55% 50% at 50% 40%, rgba(255,88,120,.26), transparent 62%),
+    radial-gradient(60% 55% at calc(10% + var(--sx)) 16%, rgba(90,70,255,45), transparent 62%),
+    radial-gradient(65% 55% at calc(85% - var(--sx)) 14%, rgba(255,76,168,42), transparent 62%),
+    radial-gradient(60% 55% at 18% calc(88% - var(--sy)), rgba(50,200,255,35), transparent 62%),
+    radial-gradient(60% 55% at calc(90% - var(--sx)) calc(88% - var(--sy)), rgba(255,140,50,34), transparent 62%),
+    radial-gradient(60% 55% at 50% 60%, rgba(176,76,255,30), transparent 62%),
+    radial-gradient(55% 50% at 50% 40%, rgba(255,88,120,26), transparent 62%),
     linear-gradient(180deg,#0a0e18 0%,#0b0f19 100%);
   background-repeat:no-repeat;
   background-size:160% 160%,160% 160%,160% 160%,160% 160%,160% 160%,160% 160%,100% 100%;
+
   animation:hue 48s ease-in-out infinite alternate;
+}
+
+/* iOS moderno: cobre o viewport "dinâmico" quando a UI muda */
+@supports (height: 100dvh){
+  body::before{ height:100dvh; }
 }
 @keyframes hue{0%{filter:hue-rotate(0)}100%{filter:hue-rotate(-10deg)}}
 
@@ -457,6 +470,7 @@ addEventListener('scroll', ()=>{
 </script>
 </body>
 </html>
+
 
 
 
